@@ -28,3 +28,6 @@ hs_err_pid*
 
 # IntelliJ
 /.nb-gradle/
+
+# Any application config files (might contain secret keys for connecting to an MQTT Broker or Azure Event Hub
+application.conf
