@@ -17,6 +17,11 @@ To build and install the project follow the steps below:
 1. Run the following command to build the Java Application and Docker Container
     1. `./gradlew clean build dockerBuildImage`
 
+### Run the Docker Container 
+
+Execute the following command to run the docker container.
+1. `docker run chesapeaketechnology/mqtt-azure-event-hub-connector:0.1.0-snapshot`
+
 ## Changelog
 
 ##### [0.1.0]() - TBD
