@@ -22,15 +22,13 @@ public class MqttAzureEventHubsConnectorMain
         logger.info("Starting the MQTT to Azure Event Hubs Connector");
 
         // Details on how Typesafe config works:  https://github.com/lightbend/config
-        final Config typesafeConfig = ConfigFactory.load();
+        final Config typesafeConfig = ConfigFactory.load("mqtt-connector");
 
         logger.debug("The Typesafe Configuration: {}", typesafeConfig);
 
         final MqttAzureConnector mqttAzureConnector = new MqttAzureConnector(typesafeConfig);
 
         mqttAzureConnector.connect();
-
-        logger.info("Finished connecting to the MQTT Broker");
 
         Runtime.getRuntime().addShutdownHook(new Thread(mqttAzureConnector::shutdown));
     }

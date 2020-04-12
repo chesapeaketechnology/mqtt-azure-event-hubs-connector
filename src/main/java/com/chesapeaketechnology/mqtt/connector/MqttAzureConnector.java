@@ -111,6 +111,8 @@ public class MqttAzureConnector
                     logger.error("Could not subscribe to an MQTT topic {}", messageTopic, e);
                 }
             });
+
+            logger.info("Finished connecting to the MQTT Broker");
         } catch (MqttException e)
         {
             logger.error("An exception occurred when connecting to the MQTT Broker", e);
