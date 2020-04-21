@@ -135,7 +135,7 @@ public class MqttAzureConnector
             mqttClient.close();
 
             scheduledExecutorService.shutdown();
-            scheduledExecutorService.awaitTermination(60, TimeUnit.SECONDS);
+            scheduledExecutorService.awaitTermination(120, TimeUnit.SECONDS);
 
             topicToEventHubProducerMap.forEach((topic, eventHubTopicProducer) -> eventHubTopicProducer.disconnect());
 

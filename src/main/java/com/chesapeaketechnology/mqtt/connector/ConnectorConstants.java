@@ -12,6 +12,11 @@ public final class ConnectorConstants
     }
 
     /**
+     * The file name (without the extension) of the Typesafe configuration that contains the MQTT Connector settings.
+     */
+    public static final String MQTT_CONNECTOR_CONFIG_FILE_NAME = "mqtt-connector";
+
+    /**
      * The config value key for the MQTT Server URI.  This constant can be used to pull the server URI string out of the
      * Typesafe config file.
      */

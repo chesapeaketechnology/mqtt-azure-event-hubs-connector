@@ -136,8 +136,21 @@ public class EventHubTopicProducer
                     final MqttMessage mqttMessage = mqttMessages.poll();
                     if (mqttMessage == null) break;
 
-                    messageBatch.tryAdd(new EventData(mqttMessage.getPayload()));
-                    batchSize++;
+                    try
+                    {
+                        if (messageBatch.tryAdd(new EventData(mqttMessage.getPayload())))
+                        {
+                            batchSize++;
+                        } else
+                        {
+                            logger.error("Could not add an MQTT message to the Azure Event Hub {} batch because the message was too large", eventHubName);
+                            break;
+                        }
+                    } catch (Exception e)
+                    {
+                        logger.error("Could not add an MQTT message to the Azure Event Hub {} batch because of an exception", eventHubName, e);
+                        break;
+                    }
                 }
 
                 logger.trace("Sending {} messages to the {} Azure Event Hub", batchSize, eventHubName);
