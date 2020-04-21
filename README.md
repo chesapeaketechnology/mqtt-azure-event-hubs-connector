@@ -27,7 +27,7 @@ is included in the [src/main/resources](src/main/resources) directory.  A typica
 need to specify the location of the `mqttconnector.conf` file, and also define a location for the log files.  Follow the
 process below for specifying the application.conf and logging directory locations.
  
-1. Create a directory called `mqtt-docker-connector`, and create a `config` and log` directory in it
+1. Create a directory called `mqtt-docker-connector`, and create a `config` and `log` directory in it
     1. `mkdir mqtt-docker-connector`
     1. `cd mqtt-docker-connector`
     1. `mkdir config log`
@@ -39,5 +39,5 @@ process below for specifying the application.conf and logging directory location
 
 ## Changelog
 
-##### [0.1.0]() - TBD
+##### [0.1.0](https://github.com/chesapeaketechnology/mqtt-azure-event-hubs-connector/releases) - 2020-04-21
  * Initial cut of this application
