@@ -144,11 +144,13 @@ public class EventHubTopicProducer
                         } else
                         {
                             logger.error("Could not add an MQTT message to the Azure Event Hub {} batch because the message was too large", eventHubName);
+                            mqttMessages.offerFirst(mqttMessage);
                             break;
                         }
                     } catch (Exception e)
                     {
                         logger.error("Could not add an MQTT message to the Azure Event Hub {} batch because of an exception", eventHubName, e);
+                        mqttMessages.offerFirst(mqttMessage);
                         break;
                     }
                 }
