@@ -81,8 +81,12 @@ public class MqttAzureConnector
      */
     private String getPasswordForUser(Config typesafeConfig)
     {
-        String password = typesafeConfig.getString(ConnectorConstants.MQTT_PASSWORD_KEY);;
-        if (password.isEmpty())
+        String password = "";
+        try
+        {
+            password = typesafeConfig.getString(ConnectorConstants.MQTT_PASSWORD_KEY);
+        }
+        catch (ConfigException configException)
         {
             String usernameKey = "mqtt/user/" + mqttUsername;
             KeyValueClient kvClient = Consul.builder().build().keyValueClient();
@@ -93,7 +97,8 @@ public class MqttAzureConnector
                 {
                     logger.info("Reading the password for user " + mqttUsername + " from Consul.");
                     password = kvClient.getValueAsString(usernameKey).orElseThrow();
-                } catch (Exception e)
+                }
+                catch (Exception e)
                 {
                     logger.warn("Not able to reach Consul. Retrying ...");
                 }
