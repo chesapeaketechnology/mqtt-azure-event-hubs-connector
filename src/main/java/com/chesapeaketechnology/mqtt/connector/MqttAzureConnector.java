@@ -60,7 +60,7 @@ public class MqttAzureConnector
         mqttServerUri = typesafeConfig.getString(ConnectorConstants.MQTT_SERVER_KEY);
         mqttTopics = new HashSet<>(typesafeConfig.getStringList(ConnectorConstants.MQTT_TOPICS_KEY));
         mqttUsername = typesafeConfig.getString(ConnectorConstants.MQTT_USERNAME_KEY);
-        mqttPassword = getPasswordForUser();
+        mqttPassword = getPasswordForUser(typesafeConfig);
         connectionString = typesafeConfig.getString(ConnectorConstants.AZURE_EVENT_HUBS_CONNECTION_STRING_KEY);
         batchSize = typesafeConfig.getInt(ConnectorConstants.AZURE_EVENT_HUBS_BATCH_SIZE_KEY);
         connectorExecutionIntervalMs = typesafeConfig.getInt(ConnectorConstants.AZURE_EVENT_HUBS_SCHEDULE_INTERVAL_KEY);
@@ -75,23 +75,30 @@ public class MqttAzureConnector
         scheduledExecutorService = Executors.newScheduledThreadPool(mqttTopics.size());
     }
 
-    private String getPasswordForUser()
+    /**
+     * Gets the mosquitto password to connect to the MQTT broker with. If the password is present in the
+     * config file, it's used for the connection. Otherwise, it is read from Consul.
+     */
+    private String getPasswordForUser(Config typesafeConfig)
     {
-        String password = "";
-        String usernameKey = "mqtt/user/" + mqttUsername;
-        KeyValueClient kvClient = Consul.builder().build().keyValueClient();
-
-        do // wait for Consul to become available
+        String password = typesafeConfig.getString(ConnectorConstants.MQTT_PASSWORD_KEY);;
+        if (password.isEmpty())
         {
-            try
-            {
-                password = kvClient.getValueAsString(usernameKey).orElseThrow();
-            } catch (Exception e)
-            {
-                logger.warn("Not able to reach Consul. Retrying ...");
-            }
-        } while (password.isEmpty());
+            String usernameKey = "mqtt/user/" + mqttUsername;
+            KeyValueClient kvClient = Consul.builder().build().keyValueClient();
 
+            do // wait for Consul to become available
+            {
+                try
+                {
+                    logger.info("Reading the password for user " + mqttUsername + " from Consul.");
+                    password = kvClient.getValueAsString(usernameKey).orElseThrow();
+                } catch (Exception e)
+                {
+                    logger.warn("Not able to reach Consul. Retrying ...");
+                }
+            } while (password.isEmpty());
+        }
         return password;
     }
 
