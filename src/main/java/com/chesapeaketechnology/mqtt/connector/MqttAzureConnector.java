@@ -97,6 +97,7 @@ public class MqttAzureConnector
                 {
                     logger.info("Reading the password for user " + mqttUsername + " from Consul.");
                     password = kvClient.getValueAsString(usernameKey).orElseThrow();
+                    Thread.sleep(2000);
                 }
                 catch (Exception e)
                 {

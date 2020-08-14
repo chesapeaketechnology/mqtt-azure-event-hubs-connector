@@ -15,7 +15,7 @@ apply plugin: 'com.bmuschko.docker-java-application'
 
 mainClassName = 'com.chesapeaketechnology.mqtt.connector.MqttAzureEventHubsConnectorMain'
 group 'com.chesapeaketechnology'
-version '0.1.3-SNAPSHOT'
+version '0.1.3'
 
 sourceCompatibility = 1.11
 
