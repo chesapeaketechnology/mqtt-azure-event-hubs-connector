@@ -15,7 +15,7 @@ apply plugin: 'com.bmuschko.docker-java-application'
 
 mainClassName = 'com.chesapeaketechnology.mqtt.connector.MqttAzureEventHubsConnectorMain'
 group 'com.chesapeaketechnology'
-version '0.1.3'
+version '0.1.4'
 
 sourceCompatibility = 1.11
 
@@ -39,11 +39,10 @@ configurations {
 configurations.compile.extendsFrom(configurations.includeInJar)
 
 dependencies {
-    includeInJar 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.0'
-    includeInJar 'com.azure:azure-messaging-eventhubs:5.0.1'
+    includeInJar 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.5'
+    includeInJar 'com.azure:azure-messaging-eventhubs:5.2.0'
 
     includeInJar 'com.typesafe:config:1.4.0'
-
     includeInJar 'com.orbitz.consul:consul-client:1.4.0'
 
     includeInJar "org.slf4j:slf4j-api:${slf4jVersion}"
