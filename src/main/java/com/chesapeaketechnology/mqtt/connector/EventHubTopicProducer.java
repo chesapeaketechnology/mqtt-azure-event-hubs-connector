@@ -71,9 +71,7 @@ public class EventHubTopicProducer
         {
             logger.info("Connecting to the {} Event Hub", eventHubName);
 
-            producer = new EventHubClientBuilder()
-                    .connectionString(connectionString, eventHubName)
-                    .buildProducerClient(); // TODO Do we want an async or sync producer?
+            createProducer();
 
             scheduledExecutorService.scheduleWithFixedDelay(this::processMessageQueue,
                     connectorExecutionIntervalMs, connectorExecutionIntervalMs, TimeUnit.MILLISECONDS);
@@ -159,6 +157,10 @@ public class EventHubTopicProducer
 
                 producer.send(messageBatch);
             }
+        } catch (IllegalArgumentException e)
+        {
+            logger.warn("Caught an IllegalArgumentException when trying to process the MQTT message queue, attempting to rebuild the producer connection", e);
+            createProducer();
         } catch (Exception e)
         {
             logger.error("Caught an Exception when trying to process the MQTT message queue", e);
@@ -173,5 +175,17 @@ public class EventHubTopicProducer
     void disconnect()
     {
         producer.close();
+    }
+
+    /**
+     * Create the Event Hub producer that is used to create a connection to the Azure Event Hub and publish messages.
+     *
+     * @since 0.1.5
+     */
+    private void createProducer()
+    {
+        producer = new EventHubClientBuilder()
+                .connectionString(connectionString, eventHubName)
+                .buildProducerClient(); // TODO Do we want an async or sync producer?
     }
 }
