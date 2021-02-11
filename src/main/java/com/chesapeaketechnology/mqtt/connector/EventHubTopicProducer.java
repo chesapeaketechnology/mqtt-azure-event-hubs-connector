@@ -157,7 +157,7 @@ public class EventHubTopicProducer
 
                 producer.send(messageBatch);
             }
-        } catch (IllegalArgumentException e)
+        } catch (IllegalStateException e)
         {
             logger.warn("Caught an IllegalArgumentException when trying to process the MQTT message queue, attempting to rebuild the producer connection", e);
             createProducer();
