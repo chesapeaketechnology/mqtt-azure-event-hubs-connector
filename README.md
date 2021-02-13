@@ -39,6 +39,9 @@ process below for specifying the application.conf and logging directory location
 
 ## Changelog
 
+##### [0.1.5](https://github.com/chesapeaketechnology/mqtt-azure-event-hubs-connector/releases/tag/v0.1.5) - 2021-02-13
+ * Fixed a connection timeout IllegalStateException that was occurring when the producer seemed to get into a bad connection state with an Azure Event Hub.
+
 ##### [0.1.1](https://github.com/chesapeaketechnology/mqtt-azure-event-hubs-connector/releases/tag/v0.1.1) - 2020-06-11
  * Fixed a bug where messages were not being added back to the queue when an error occurred while sending the message to Azure.
 
