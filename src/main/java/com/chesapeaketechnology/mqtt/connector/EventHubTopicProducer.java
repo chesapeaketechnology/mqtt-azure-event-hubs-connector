@@ -92,7 +92,13 @@ public class EventHubTopicProducer
      */
     void queueNewMessage(MqttMessage mqttMessage)
     {
-        mqttMessageQueue.add(mqttMessage);
+        try
+        {
+            mqttMessageQueue.add(mqttMessage);
+        } catch (Exception e)
+        {
+            logger.error("A problem occurred adding the MQTT message to the Azure queue.", e);
+        }
     }
 
     /**
