@@ -73,6 +73,7 @@ docker {
         baseImage = 'openjdk:11'
         maintainer = 'Christian Rowlands'
         images = ["chesapeaketechnology/${rootProject.name}:${version}", "chesapeaketechnology/${rootProject.name}:latest"]
+        jvmArgs = ['-Dconfig.override_with_env_vars=true']
     }
 }
 
