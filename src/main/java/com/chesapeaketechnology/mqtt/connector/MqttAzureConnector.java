@@ -85,8 +85,7 @@ public class MqttAzureConnector
         try
         {
             password = typesafeConfig.getString(ConnectorConstants.MQTT_PASSWORD_KEY);
-        }
-        catch (ConfigException configException)
+        } catch (ConfigException configException)
         {
             String usernameKey = "mqtt/user/" + mqttUsername;
             KeyValueClient kvClient = Consul.builder().build().keyValueClient();
@@ -95,13 +94,12 @@ public class MqttAzureConnector
             {
                 try
                 {
-                    logger.info("Reading the password for user " + mqttUsername + " from Consul.");
+                    logger.info("Reading the password for user {} from Consul.", mqttUsername);
                     password = kvClient.getValueAsString(usernameKey).orElseThrow();
                     Thread.sleep(2000);
-                }
-                catch (Exception e)
+                } catch (Exception e)
                 {
-                    logger.warn("Not able to reach Consul. Retrying ...");
+                    logger.warn("Not able to reach Consul. Retrying ...", e);
                 }
             } while (password.isEmpty());
         }
@@ -131,6 +129,8 @@ public class MqttAzureConnector
             options.setPassword(mqttPassword.toCharArray());
             mqttClient.connect(options);
 
+            logger.info("Successfully connected to the MQTT broker, starting to create the Event Hub connections");
+
             mqttTopics.forEach(messageTopic -> {
                 final EventHubTopicProducer eventHubTopicProducer = new EventHubTopicProducer(connectionString,
                         messageTopic, scheduledExecutorService, batchSize, connectorExecutionIntervalMs);
@@ -139,7 +139,7 @@ public class MqttAzureConnector
                 {
                     if (eventHubTopicProducer.connect())
                     {
-                        mqttClient.subscribe(messageTopic, (topic, message) -> eventHubTopicProducer.queueNewMessage(message));
+                        mqttClient.subscribe(messageTopic, 2, (topic, message) -> eventHubTopicProducer.queueNewMessage(message));
                     }
                 } catch (MqttException e)
                 {
