@@ -15,7 +15,7 @@ apply plugin: 'com.bmuschko.docker-java-application'
 
 mainClassName = 'com.chesapeaketechnology.mqtt.connector.MqttAzureEventHubsConnectorMain'
 group 'com.chesapeaketechnology'
-version '0.1.6-SNAPSHOT'
+version '0.1.6'
 
 sourceCompatibility = 1.11
 
@@ -80,5 +80,5 @@ docker {
 dockerCreateDockerfile {
     instruction 'RUN mkdir -p /mqtt-azure-connector/config /mqtt-azure-connector/log'
     instruction 'VOLUME ["/mqtt-azure-connector/config", "/mqtt-azure-connector/log"]'
-    entryPoint 'java', '-cp', '/mqtt-azure-connector/config:/app/resources:/app/classes:/app/libs/*', 'com.chesapeaketechnology.mqtt.connector.MqttAzureEventHubsConnectorMain'
+    entryPoint 'java', '-Dconfig.override_with_env_vars=true', '-cp', '/mqtt-azure-connector/config:/app/resources:/app/classes:/app/libs/*', 'com.chesapeaketechnology.mqtt.connector.MqttAzureEventHubsConnectorMain'
 }

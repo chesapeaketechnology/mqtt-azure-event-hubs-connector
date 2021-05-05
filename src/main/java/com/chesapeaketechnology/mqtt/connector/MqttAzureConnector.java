@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.invoke.MethodHandles;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -19,6 +20,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+
+import static com.chesapeaketechnology.mqtt.connector.ConnectorConstants.*;
 
 /**
  * This class handles most of the logic for connecting an MQTT Broker to Azure Event Hubs.  It is responsible for
@@ -58,7 +61,7 @@ public class MqttAzureConnector
     MqttAzureConnector(Config typesafeConfig) throws ConfigException.Missing
     {
         mqttServerUri = typesafeConfig.getString(ConnectorConstants.MQTT_SERVER_KEY);
-        mqttTopics = new HashSet<>(typesafeConfig.getStringList(ConnectorConstants.MQTT_TOPICS_KEY));
+        mqttTopics = new HashSet<>(Arrays.asList(typesafeConfig.getString(ConnectorConstants.MQTT_TOPICS_KEY).split(MQTT_TOPIC_LIST_DELIMITER)));
         mqttUsername = typesafeConfig.getString(ConnectorConstants.MQTT_USERNAME_KEY);
         mqttPassword = getPasswordForUser(typesafeConfig);
         connectionString = typesafeConfig.getString(ConnectorConstants.AZURE_EVENT_HUBS_CONNECTION_STRING_KEY);

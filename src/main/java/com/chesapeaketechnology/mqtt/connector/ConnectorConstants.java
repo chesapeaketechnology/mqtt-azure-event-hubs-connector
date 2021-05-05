@@ -65,4 +65,9 @@ public final class ConnectorConstants
      * MQTT message queue, if the number of messages is larger than this constant, then a warning will be logged.
      */
     public static final int MQTT_MESSAGE_QUEUE_WARNING_SIZE = 1000;
+
+    /**
+     * Delimiter character for the list of topics configuration.
+     */
+    public static final String MQTT_TOPIC_LIST_DELIMITER = ",";
 }
