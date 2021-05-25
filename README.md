@@ -36,6 +36,12 @@ process below for specifying the application.conf and logging directory location
 1. Change directory into the `mqtt-docker-connector` directory
 1. Use the following command to start the docker container
     1. `docker run --name MqttAzureConnector -v $(pwd)/config:/mqtt-azure-connector/config -v $(pwd)/log:/mqtt-azure-connector/log chesapeaketechnology/mqtt-azure-event-hub-connector:latest`
+   
+### Publish the Docker container
+
+1. Use `docker login` to login to a docker hub account.
+1. Push the recently built image using the following command (replace `<version_number> with the version that was just built):
+   1. `docker push chesapeaketechnology/mqtt-azure-event-hub-connector:<version_number>`
 
 ## Changelog
 
