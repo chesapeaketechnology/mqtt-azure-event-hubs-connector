@@ -39,6 +39,11 @@ process below for specifying the application.conf and logging directory location
 
 ## Changelog
 
+##### [0.2.0](https://github.com/chesapeaketechnology/mqtt-azure-event-hubs-connector/releases/tag/v0.2.0) - 2021-05-25
+ * Updated the QoS for the MQTT subscription to 2.
+ * Added a JVM argument so the Typesafe config can be passed in via environment variables (for Kubernetes Support).
+ * BREAKING CHANGE: Switched to using a csv String instead of an array for the MQTT topics to allow for environment variable support.
+
 ##### [0.1.5](https://github.com/chesapeaketechnology/mqtt-azure-event-hubs-connector/releases/tag/v0.1.5) - 2021-02-13
  * Fixed a connection timeout IllegalStateException that was occurring when the producer seemed to get into a bad connection state with an Azure Event Hub.
 
